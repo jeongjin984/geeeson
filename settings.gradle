@@ -1,0 +1,14 @@
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if(requested.id.id == 'org.springframework.boot') useVersion springBootVersion as String
+            if(requested.id.id == 'io.spring.dependency-management') useVersion springDependencyManagerVersion as String
+        }
+    }
+}
+
+include (
+    'simulator'
+)
+
+rootProject.name = 'geeson'
