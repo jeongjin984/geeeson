@@ -1,4 +1,4 @@
-package geeson.order;
+package geeson.inventory;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -9,13 +9,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class OrderJobConfig {
-
+public class InventoryJobConfig {
     @Bean
-    public Job orderConfig(
-        JobRepository jobRepository
-    ) {
-        return new JobBuilder("createOrderJob", jobRepository)
+    public Job jobConfig(JobRepository jobRepository) {
+        return new JobBuilder("inventorySimulationJob", jobRepository)
+            .start()
             .build();
     }
+
+    @Bean
+    public
 }
