@@ -8,7 +8,16 @@ pluginManagement {
 }
 
 include (
-    'simulator'
+    'simulator',
+    
+    'inventory',
+    'inventory:inventory-movement',
+    
+    'order',
+    
+    'payment',
+    
+    'product'
 )
 
 rootProject.name = 'geeson'
