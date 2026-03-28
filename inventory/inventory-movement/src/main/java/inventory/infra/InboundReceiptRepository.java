@@ -3,11 +3,16 @@ package inventory.infra;
 import inventory.domain.entity.InboundReceipt;
 import inventory.infra.jpa.InboundReceiptJpaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class InboundReceiptRepository {
     private final InboundReceiptJpaRepository inboundReceiptJpaRepository;
+
+    public Optional<InboundReceipt> findById(Long id) {
+        return inboundReceiptJpaRepository.findById(id);
+    }
 }

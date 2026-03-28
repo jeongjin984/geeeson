@@ -10,4 +10,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class InventorySnapshotRepository {
     private final InventorySnapshotJpaRepository inventorySnapshotJpaRepository;
+
+    public InventorySnapshot save(InventorySnapshot inventorySnapshot) {
+        return inventorySnapshotJpaRepository.save(inventorySnapshot);
+    }
 }

@@ -3,15 +3,15 @@ package inventory.domain.entity;
 import inventory.domain.entity.base.BaseTimeEntity;
 import inventory.domain.entity.enums.OwnerType;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "inventory_owner",
        uniqueConstraints = @UniqueConstraint(name = "uq_inventory_owner_code", columnNames = "owner_code"))
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class InventoryOwner extends BaseTimeEntity {
 
     @Id

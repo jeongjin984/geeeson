@@ -4,15 +4,15 @@ import inventory.domain.entity.base.BaseTimeEntity;
 import inventory.domain.entity.enums.TemperatureType;
 import inventory.domain.entity.enums.ZoneType;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "zone",
        uniqueConstraints = @UniqueConstraint(name = "uq_zone", columnNames = {"warehouse_id", "zone_code"}))
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Zone extends BaseTimeEntity {
 
     @Id

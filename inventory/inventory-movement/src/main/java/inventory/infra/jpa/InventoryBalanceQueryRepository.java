@@ -1,13 +1,13 @@
 package inventory.infra.jpa;
 
-import inventory.domain.view.InventoryBalanceView;
+import inventory.domain.entity.view.InventoryBalanceView;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface InventoryBalanceQueryRepository extends Repository<Object, Long> {
+public interface InventoryBalanceQueryRepository extends JpaRepository<InventoryBalanceView, Long> {
 
     @Query(value = """
         SELECT

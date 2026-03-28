@@ -3,9 +3,7 @@ package inventory.domain.entity;
 import inventory.domain.entity.base.BaseTimeEntity;
 import inventory.domain.entity.enums.LocationType;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -14,6 +12,8 @@ import java.math.BigDecimal;
        uniqueConstraints = @UniqueConstraint(name = "uq_location", columnNames = {"warehouse_id", "location_code"}))
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Location extends BaseTimeEntity {
 
     @Id

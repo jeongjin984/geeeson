@@ -2,15 +2,15 @@ package inventory.domain.entity;
 
 import inventory.domain.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "warehouse",
        uniqueConstraints = @UniqueConstraint(name = "uq_warehouse_code", columnNames = "warehouse_code"))
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Warehouse extends BaseTimeEntity {
 
     @Id

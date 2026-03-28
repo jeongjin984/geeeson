@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "spring.datasource.inventory.hikari.driver-class-name",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.inventory.hikari.driver-class-name."
+    },
+    {
+      "name": "spring.datasource.inventory.hikari.jdbc-url",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.inventory.hikari.jdbc-url."
+    },
+    {
+      "name": "spring.datasource.inventory.hikari.username",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.inventory.hikari.username."
+    },
+    {
+      "name": "spring.datasource.inventory.hikari.password",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.inventory.hikari.password."
+    }
+  ] }

@@ -3,19 +3,22 @@ package inventory.domain.entity;
 import inventory.domain.entity.enums.StockStatus;
 import inventory.domain.entity.enums.TransactionReferenceType;
 import inventory.domain.entity.enums.TransactionType;
+import inventory.domain.service.ReserveInventoryService;
+import inventory.domain.vo.StockSnapshot;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Entity
 @Table(name = "inventory_transaction")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class InventoryTransaction {
 
     @Id
@@ -109,4 +112,36 @@ public class InventoryTransaction {
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "attributes_json")
     private Map<String, Object> attributesJson;
+
+    public static InventoryTransaction allocate(
+        InventoryReservation reservation,
+        InventoryStock stock,
+        StockSnapshot before,
+        StockSnapshot after
+    ) {
+        return InventoryTransaction.builder()
+            .transactionType(TransactionType.ALLOCATE)
+            .referenceType(TransactionReferenceType.MANUAL)
+            .referenceNo(reservation.getReferenceNo())
+            .referenceLineNo(reservation.getReferenceLineNo())
+            .warehouse(stock.getWarehouse())
+            .owner(stock.getOwner())
+            .fromLocation(stock.getLocation())
+            .toLocation(null)
+            .item(stock.getItem())
+            .lot(stock.getLot())
+            .stockStatusBefore(stock.getStockStatus())
+            .stockStatusAfter(stock.getStockStatus())
+            .quantity(reservation.getReservedQty())
+            .uom(stock.getItem().getUom())
+            .onHandBefore(before.onHandQty())
+            .onHandAfter(after.onHandQty())
+            .allocatedBefore(before.allocatedQty())
+            .allocatedAfter(after.allocatedQty())
+            .availableBefore(before.availableQty())
+            .availableAfter(after.availableQty())
+            .transactionAt(LocalDateTime.now())
+            .createdBy("SYSTEM")
+            .build();
+    }
 }

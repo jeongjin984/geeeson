@@ -8,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -15,6 +17,8 @@ import java.time.LocalDateTime;
 @Table(name = "inventory_hold")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class InventoryHold extends BaseTimeEntity {
 
     @Id
@@ -70,4 +74,13 @@ public class InventoryHold extends BaseTimeEntity {
 
     @Column(name = "released_by", length = 100)
     private String releasedBy;
+
+    public void release(BigDecimal qty, String releasedBy) {
+        this.releasedQty = this.releasedQty.add(qty);
+        if (this.releasedQty.compareTo(this.heldQty) >= 0) {
+            this.holdStatus = HoldStatus.RELEASED;
+            this.releasedAt = LocalDateTime.now();
+            this.releasedBy = releasedBy;
+        }
+    }
 }

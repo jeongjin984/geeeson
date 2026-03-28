@@ -3,13 +3,17 @@ package inventory.domain.entity;
 import inventory.domain.entity.enums.StockStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "inventory_snapshot")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class InventorySnapshot {
 
     @Id
@@ -58,4 +62,22 @@ public class InventorySnapshot {
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private java.time.LocalDateTime createdAt;
+
+    public static InventorySnapshot from(InventoryStock inventoryStock) {
+        return new InventorySnapshot(
+            null,
+            LocalDateTime.now(),
+            inventoryStock.getOwner(),
+            inventoryStock.getWarehouse(),
+            inventoryStock.getLocation(),
+            inventoryStock.getItem(),
+            inventoryStock.getLot(),
+            inventoryStock.getStockStatus(),
+            inventoryStock.getOnHandQty(),
+            inventoryStock.getAllocatedQty(),
+            inventoryStock.getPickedQty(),
+            inventoryStock.getAvailableQty(),
+            LocalDateTime.now()
+        );
+    }
 }
