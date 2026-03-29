@@ -11,7 +11,7 @@ include (
     'simulator',
     
     'inventory',
-    'inventory:inventory-movement',
+    'inventory:inventory-management',
     
     'order',
     
