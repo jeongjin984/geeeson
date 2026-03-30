@@ -19,4 +19,8 @@ public class InventoryReservationRepository {
     public Optional<InventoryReservation> findById(Long id) {
         return inventoryReservationJpaRepository.findById(id);
     }
+
+    public Optional<InventoryReservation> findByIdForUpdate(Long id) {
+        return inventoryReservationJpaRepository.findByIdForUpdate(id);
+    }
 }

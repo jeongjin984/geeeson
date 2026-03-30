@@ -138,7 +138,18 @@ public class InventoryReservation extends BaseTimeEntity {
             .build();
     }
 
-    public void cancel() {
+    public BigDecimal cancel() {
+        if (this.reservationStatus != ReservationStatus.ACTIVE) {
+            throw new IllegalStateException("Only ACTIVE reservation can be cancelled");
+        }
+
+        BigDecimal releaseQty = this.reservedQty.subtract(this.releasedQty);
+        if (releaseQty.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalStateException("No quantity left to release");
+        }
+
+        this.releasedQty = this.reservedQty;
         this.reservationStatus = ReservationStatus.CANCELLED;
+        return releaseQty;
     }
 }

@@ -10,6 +10,7 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -133,6 +134,39 @@ public class InventoryTransaction {
             .stockStatusBefore(stock.getStockStatus())
             .stockStatusAfter(stock.getStockStatus())
             .quantity(reservation.getReservedQty())
+            .uom(stock.getItem().getUom())
+            .onHandBefore(before.onHandQty())
+            .onHandAfter(after.onHandQty())
+            .allocatedBefore(before.allocatedQty())
+            .allocatedAfter(after.allocatedQty())
+            .availableBefore(before.availableQty())
+            .availableAfter(after.availableQty())
+            .transactionAt(LocalDateTime.now())
+            .createdBy("SYSTEM")
+            .build();
+    }
+
+    public static InventoryTransaction deallocate(
+        InventoryReservation reservation,
+        InventoryStock stock,
+        StockSnapshot before,
+        StockSnapshot after,
+        BigDecimal qty
+    ) {
+        return InventoryTransaction.builder()
+            .transactionType(TransactionType.DEALLOCATE)
+            .referenceType(TransactionReferenceType.MANUAL)
+            .referenceNo(reservation.getReferenceNo())
+            .referenceLineNo(reservation.getReferenceLineNo())
+            .warehouse(stock.getWarehouse())
+            .owner(stock.getOwner())
+            .fromLocation(stock.getLocation())
+            .toLocation(null)
+            .item(stock.getItem())
+            .lot(stock.getLot())
+            .stockStatusBefore(stock.getStockStatus())
+            .stockStatusAfter(stock.getStockStatus())
+            .quantity(qty)
             .uom(stock.getItem().getUom())
             .onHandBefore(before.onHandQty())
             .onHandAfter(after.onHandQty())

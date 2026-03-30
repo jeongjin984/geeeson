@@ -56,15 +56,20 @@ public class InventoryStock extends BaseTimeEntity {
     @Column(name = "stock_status", nullable = false, length = 20)
     private StockStatus stockStatus;
 
+    // 물리적으로 존재하는 총 재고
     @Column(name = "on_hand_qty", nullable = false, precision = 18, scale = 4)
     private BigDecimal onHandQty;
 
+    // 예약되어 묶인 재고
     @Column(name = "allocated_qty", nullable = false, precision = 18, scale = 4)
     private BigDecimal allocatedQty;
 
+    // 이미 꺼내진 재고 (출고 직전)
     @Column(name = "picked_qty", nullable = false, precision = 18, scale = 4)
     private BigDecimal pickedQty;
 
+    // 지금 당장 사용할 수 있는 재고
+    // available_qty = on_hand_qty - allocated_qty - picked_qty
     @Column(name = "available_qty", nullable = false, precision = 18, scale = 4)
     private BigDecimal availableQty;
 
@@ -87,18 +92,14 @@ public class InventoryStock extends BaseTimeEntity {
         this.lastTransactionAt = LocalDateTime.now();
     }
 
-    public boolean canAllocate(BigDecimal qty) {
-        return availableQty.compareTo(qty) >= 0;
-    }
+    public void deallocate(BigDecimal releaseQty) {
+        validatePositive(releaseQty);
 
-    public void deallocate(BigDecimal qty) {
-        validatePositive(qty);
-
-        if (allocatedQty.compareTo(qty) < 0) {
+        if (allocatedQty.compareTo(releaseQty) < 0) {
             throw new DomainValidationException("Allocated quantity is insufficient");
         }
 
-        this.allocatedQty = this.allocatedQty.subtract(qty);
+        this.allocatedQty = this.allocatedQty.subtract(releaseQty);
         recalculateAvailable();
         validateNonNegative();
         this.lastTransactionAt = LocalDateTime.now();

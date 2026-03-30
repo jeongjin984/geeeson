@@ -1,0 +1,56 @@
+package inventory.domain.service;
+
+import inventory.domain.entity.InventoryReservation;
+import inventory.domain.entity.InventoryStock;
+import inventory.domain.entity.InventoryTransaction;
+import inventory.domain.entity.Location;
+import inventory.domain.entity.enums.ReservationStatus;
+import inventory.domain.entity.enums.StockStatus;
+import inventory.domain.vo.StockSnapshot;
+import inventory.infra.*;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class CancelReservationService {
+    private final InventoryReservationRepository inventoryReservationRepository;
+    private final InventoryStockRepository inventoryStockRepository;
+    private final InventoryTransactionRepository inventoryTransactionRepository;
+
+    public Long cancelReservation(Long reservationId) {
+        InventoryReservation reservation = inventoryReservationRepository.findByIdForUpdate(reservationId)
+            .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));
+
+        Location location = reservation.getLocation();
+        if (location == null) {
+            throw new IllegalStateException("Location is required for current cancellation flow");
+        }
+
+        InventoryStock inventoryStock = inventoryStockRepository.findForUpdateByLocation(
+                reservation.getOwner(),
+                reservation.getWarehouse(),
+                location,
+                reservation.getItem(),
+                reservation.getLot(),
+                StockStatus.AVAILABLE
+            )
+            .orElseThrow(() -> new IllegalArgumentException("Inventory not found for reservation: " + reservationId));
+
+        BigDecimal releaseQty = reservation.cancel();
+
+        StockSnapshot before = StockSnapshot.from(inventoryStock);
+        inventoryStock.deallocate(releaseQty);
+        StockSnapshot after = StockSnapshot.from(inventoryStock);
+
+        inventoryTransactionRepository.save(
+            InventoryTransaction.deallocate(reservation, inventoryStock, before, after, releaseQty)
+        );
+
+        return reservation.getId();
+    }
+}
