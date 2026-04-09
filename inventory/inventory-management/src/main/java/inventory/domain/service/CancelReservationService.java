@@ -10,6 +10,10 @@ import inventory.domain.vo.StockSnapshot;
 import inventory.infra.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.CannotAcquireLockException;
+import org.springframework.dao.PessimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,6 +26,14 @@ public class CancelReservationService {
     private final InventoryStockRepository inventoryStockRepository;
     private final InventoryTransactionRepository inventoryTransactionRepository;
 
+    @Retryable(
+        retryFor = {
+            CannotAcquireLockException.class,
+            PessimisticLockingFailureException.class
+        },
+        maxAttempts = 3,
+        backoff = @Backoff(delay = 100, maxDelay = 300, random = true)
+    )
     public Long cancelReservation(Long reservationId) {
         InventoryReservation reservation = inventoryReservationRepository.findByIdForUpdate(reservationId)
             .orElseThrow(() -> new IllegalArgumentException("Reservation not found"));

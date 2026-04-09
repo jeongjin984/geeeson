@@ -52,11 +52,8 @@ public class ReserveInventoryService {
         Item item = itemRepository.findById(command.itemId())
             .orElseThrow(() -> new IllegalArgumentException("Item not found"));
 
-        ItemLot lot = null;
-        if (command.lotId() != null) {
-            lot = itemLotRepository.findById(command.lotId())
-                .orElseThrow(() -> new IllegalArgumentException("Lot not found"));
-        }
+        ItemLot lot = command.lotId() == null ? null : itemLotRepository.findById(command.lotId())
+            .orElse(null);
 
         InventoryStock inventoryStock = inventoryStockRepository.findForUpdateByLocation(owner, warehouse, location, item, lot, StockStatus.AVAILABLE)
             .orElseThrow(() -> new IllegalArgumentException("Inventory not found"));
