@@ -1,9 +1,8 @@
 package inventory.infra;
 
-import inventory.domain.entity.InventorySnapshot;
+import inventory.domain.stock.entity.InventorySnapshot;
 import inventory.infra.jpa.InventorySnapshotJpaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 @Component

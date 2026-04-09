@@ -1,7 +1,7 @@
 package inventory.infra.jpa;
 
-import inventory.domain.entity.InboundReceipt;
-import inventory.domain.entity.InboundReceiptLine;
+import inventory.domain.inbound.entity.InboundReceipt;
+import inventory.domain.inbound.entity.InboundReceiptLine;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

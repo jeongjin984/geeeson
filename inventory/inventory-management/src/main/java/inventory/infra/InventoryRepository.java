@@ -1,6 +1,5 @@
 package inventory.infra;
 
-import inventory.domain.entity.InventoryStock;
 import inventory.infra.jpa.InventoryJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,8 @@
 package inventory.infra;
 
-import inventory.domain.entity.*;
-import inventory.domain.entity.enums.StockStatus;
+import inventory.common.enums.StockStatus;
+import inventory.domain.master.entity.*;
+import inventory.domain.stock.entity.InventoryStock;
 import inventory.infra.jpa.InventoryStockJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

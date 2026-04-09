@@ -1,7 +1,7 @@
 package inventory.infra.jpa;
 
-import inventory.domain.entity.InventoryAdjustment;
-import inventory.domain.entity.InventoryAdjustmentLine;
+import inventory.domain.adjustment.entity.InventoryAdjustment;
+import inventory.domain.adjustment.entity.InventoryAdjustmentLine;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

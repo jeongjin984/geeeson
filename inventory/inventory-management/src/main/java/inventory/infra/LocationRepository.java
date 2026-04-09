@@ -1,6 +1,6 @@
 package inventory.infra;
 
-import inventory.domain.entity.Location;
+import inventory.domain.master.entity.Location;
 import inventory.infra.jpa.LocationJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

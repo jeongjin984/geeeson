@@ -1,7 +1,7 @@
 package inventory.infra;
 
-import inventory.domain.entity.InboundReceipt;
-import inventory.domain.entity.InboundReceiptLine;
+import inventory.domain.inbound.entity.InboundReceipt;
+import inventory.domain.inbound.entity.InboundReceiptLine;
 import inventory.infra.jpa.InboundReceiptLineJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,8 @@
 package inventory.infra.jpa;
 
-import inventory.domain.entity.*;
-import inventory.domain.entity.enums.StockStatus;
+import inventory.common.enums.StockStatus;
+import inventory.domain.master.entity.*;
+import inventory.domain.stock.entity.InventoryStock;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 public interface InventoryStockJpaRepository extends JpaRepository<InventoryStock, Long> {
     Optional<InventoryStock> findByOwnerAndWarehouseAndLocationAndItemAndLotAndStockStatus(
-            InventoryOwner owner, Warehouse warehouse, Location location, Item item, ItemLot lot, StockStatus stockStatus);
+        InventoryOwner owner, Warehouse warehouse, Location location, Item item, ItemLot lot, StockStatus stockStatus);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("""

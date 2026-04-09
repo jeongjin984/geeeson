@@ -1,6 +1,6 @@
 package inventory.infra.jpa;
 
-import inventory.domain.entity.Item;
+import inventory.domain.master.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

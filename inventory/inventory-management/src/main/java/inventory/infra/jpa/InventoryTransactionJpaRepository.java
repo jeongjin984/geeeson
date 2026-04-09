@@ -1,8 +1,8 @@
 package inventory.infra.jpa;
 
-import inventory.domain.entity.InventoryOwner;
-import inventory.domain.entity.InventoryTransaction;
-import inventory.domain.entity.Item;
+import inventory.domain.master.entity.InventoryOwner;
+import inventory.domain.stock.entity.InventoryTransaction;
+import inventory.domain.master.entity.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
